@@ -1,0 +1,15 @@
+{
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#392A26",
+    "titleBar.activeBackground": "#503B35",
+    "titleBar.activeForeground": "#FBFAF9"
+  },
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.tslint": true,
+    "source.organizeImports": true
+  },
+  "javascript.validate.enable": false,
+  "typescript.validate.enable": false
+}
