@@ -1,85 +1,76 @@
 import { useEffect } from 'react';
-import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
+import { Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { createOrder } from '../actions/orderActions';
-import CheckoutSteps from '../components/CheckoutSteps';
+import { Link, useParams } from 'react-router-dom';
+import { getOrderDetails } from '../actions/orderActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
-const PlaceOrderPage = () => {
+const OrderPage = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { id: orderId } = useParams();
 
-  const cart = useSelector((state) => state.cart);
-  const { shippingAddress, paymentMethod, cartItems } = cart;
-
-  // calculate price
-  const addDecimal = (num) => {
-    return (Math.round(num * 100) / 100).toFixed(2);
-  };
-  cart.itemsPrice = addDecimal(
-    cartItems.reduce((acc, item) => +acc + +item.price * +item.quantity, 0)
-  );
-  cart.shippingPrice = addDecimal(cart.itemsPrice > 100 ? 0 : 100);
-  cart.taxPrice = addDecimal(0.15 * +cart.itemsPrice);
-  cart.totalPrice = addDecimal(
-    +cart.itemsPrice + +cart.shippingPrice + +cart.taxPrice
-  );
-  const { itemsPrice, shippingPrice, taxPrice, totalPrice } = cart;
-
-  const { loading, success, order, error } = useSelector(
-    (state) => state.orderCreate
-  );
+  const orderDetails = useSelector((state) => state.orderDetails);
+  const { order, loading, error } = orderDetails;
 
   useEffect(() => {
-    if (success) {
-      navigate(`/orders/${order._id}`);
-    }
-  }, [navigate, success, order]);
+    dispatch(getOrderDetails(orderId));
+  }, [dispatch, orderId]);
 
-  const placeOrderHandler = () => {
-    dispatch(
-      createOrder({
-        orderItems: cartItems,
-        shippingAddress,
-        paymentMethod,
-        itemsPrice,
-        shippingPrice,
-        taxPrice,
-        totalPrice,
-      })
-    );
-  };
-  return (
+  return loading ? (
+    <Loader />
+  ) : error ? (
+    <Message variant="danger">{error}</Message>
+  ) : (
     <>
-      <CheckoutSteps step1 step2 step3 step4 />
+      <h1>Order {order._id}</h1>
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h2>Shipping</h2>
+              <strong>Name: </strong>
+              {order.user.name}
+              <br />
+              <strong>Email: </strong>
+              <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
               <p>
                 <strong>
-                  Address: {shippingAddress.address}, {shippingAddress.city},{' '}
-                  {shippingAddress.postalCode}, {shippingAddress.country}
+                  Address: {order.shippingAddress.address},{' '}
+                  {order.shippingAddress.city},{' '}
+                  {order.shippingAddress.postalCode},{' '}
+                  {order.shippingAddress.country}
                 </strong>
               </p>
+              {order.isDelivered ? (
+                <Message variant="success">
+                  Delivered on {order.deliveredAt}
+                </Message>
+              ) : (
+                <Message variant="danger">Not delivered yet</Message>
+              )}
             </ListGroup.Item>
 
             <ListGroup.Item>
               <h2>Payment Method</h2>
-              <strong>Method: </strong>
-              {paymentMethod}
+              <p>
+                <strong>Method: </strong>
+                {order.paymentMethod}
+              </p>
+              {order.isPaid ? (
+                <Message variant="success">Paid on {order.paidAt}</Message>
+              ) : (
+                <Message variant="danger">Not paid yet</Message>
+              )}
             </ListGroup.Item>
 
             <ListGroup.Item>
               <h2>Order Items</h2>
-              {cartItems.length === 0 ? (
-                <Message>Your cart is empty</Message>
+              {order.orderItems.length === 0 ? (
+                <Message>Order is empty</Message>
               ) : (
                 <ListGroup variant="flush">
-                  {cartItems.map((item, index) => (
+                  {order.orderItems.map((item, index) => (
                     <ListGroup.Item key={index}>
                       <Row>
                         <Col md={2}>
@@ -116,40 +107,26 @@ const PlaceOrderPage = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>${itemsPrice}</Col>
+                  <Col>${order.itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping</Col>
-                  <Col>${shippingPrice}</Col>
+                  <Col>${order.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax</Col>
-                  <Col>${taxPrice}</Col>
+                  <Col>${order.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>${totalPrice}</Col>
+                  <Col>${order.totalPrice}</Col>
                 </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                {loading && <Loader />}
-                {error && <Message variant="danger">{error}</Message>}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Button
-                  type="button"
-                  className="btn-block"
-                  disabled={cartItems.length === 0}
-                  onClick={placeOrderHandler}
-                >
-                  Place Order
-                </Button>
               </ListGroup.Item>
             </ListGroup>
           </Card>
@@ -159,4 +136,4 @@ const PlaceOrderPage = () => {
   );
 };
 
-export default PlaceOrderPage;
+export default OrderPage;

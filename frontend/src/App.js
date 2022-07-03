@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import CartPage from './pages/CartPage';
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
+import OrderPage from './pages/OrderPage';
 import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import ProductPage from './pages/ProductPage';
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/shipping" element={<ShippingPage />} />
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/place-order" element={<PlaceOrderPage />} />
+          <Route path="/orders/:id" element={<OrderPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>
