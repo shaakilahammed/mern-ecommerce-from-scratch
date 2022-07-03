@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import CartPage from './pages/CartPage';
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
+import PaymentPage from './pages/PaymentPage';
 import ProductPage from './pages/ProductPage';
 import ProfilePage from './pages/ProfilePage';
 import RegisterPage from './pages/RegisterPage';
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="/cart/:id" element={<CartPage />} />
           </Route>
           <Route path="/shipping" element={<ShippingPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>
