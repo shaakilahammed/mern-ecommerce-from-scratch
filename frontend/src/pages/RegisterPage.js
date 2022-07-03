@@ -19,7 +19,7 @@ const RegisterPage = () => {
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get('redirect')
     ? searchParams.get('redirect')
-    : '/';
+    : '';
 
   const dispatch = useDispatch();
   const userRegister = useSelector((state) => state.userRegister);
@@ -27,7 +27,7 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate(redirect);
+      navigate(`/${redirect}`);
     }
   }, [userInfo, navigate, redirect]);
   const submitHandler = (e) => {
@@ -87,7 +87,7 @@ const RegisterPage = () => {
       </Form>
       <Row className="py-3">
         Have an account?{'   '}
-        <Link to={redirect !== '/' ? `/login?redirect=${redirect}` : '/login'}>
+        <Link to={redirect !== '' ? `/login?redirect=${redirect}` : '/login'}>
           Login Now
         </Link>
       </Row>

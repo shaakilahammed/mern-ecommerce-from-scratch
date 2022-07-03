@@ -9,11 +9,17 @@ import {
   Row,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import Message from '../components/Message';
 
 const CartPage = () => {
+  const navigate = useNavigate();
   const { id: productId } = useParams();
   const [searchParams] = useSearchParams();
   const quantity = searchParams.get('quantity')
@@ -36,7 +42,7 @@ const CartPage = () => {
   };
 
   const checkoutHandler = () => {
-    console.log('checkout');
+    navigate('/login?redirect=shipping');
   };
 
   return (
