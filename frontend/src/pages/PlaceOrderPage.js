@@ -6,6 +6,8 @@ import { createOrder } from '../actions/orderActions';
 import CheckoutSteps from '../components/CheckoutSteps';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import { ORDER_CREATE_RESET } from '../constants/orderConstants';
+import { USER_DETAILS_RESET } from '../constants/userConstants';
 
 const PlaceOrderPage = () => {
   const dispatch = useDispatch();
@@ -32,11 +34,15 @@ const PlaceOrderPage = () => {
     (state) => state.orderCreate
   );
 
+  console.log(order);
+
   useEffect(() => {
     if (success) {
+      dispatch({ type: USER_DETAILS_RESET });
+      dispatch({ type: ORDER_CREATE_RESET });
       navigate(`/orders/${order._id}`);
     }
-  }, [navigate, success, order]);
+  }, [navigate, success, order, dispatch]);
 
   const placeOrderHandler = () => {
     dispatch(
