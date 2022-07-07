@@ -50,7 +50,9 @@ const UserList = () => {
               <tr key={user._id}>
                 <td>{user._id}</td>
                 <td>{user.name}</td>
-                <td href={`mailto:${user.email}`}>{user.email}</td>
+                <td>
+                  <a href={`mailto:${user.email}`}>{user.email}</a>
+                </td>
                 <td>
                   {user.isAdmin ? (
                     <i className="fas fa-check" style={{ color: 'green' }}></i>
