@@ -10,6 +10,7 @@ import ProductPage from './pages/ProductPage';
 import ProfilePage from './pages/ProfilePage';
 import RegisterPage from './pages/RegisterPage';
 import ShippingPage from './pages/ShippingPage';
+import UserEditPage from './pages/UserEditPage';
 import UserList from './pages/UserList';
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/admin/user-list" element={<UserList />} />
+          <Route path="/admin/user-list/:id/edit" element={<UserEditPage />} />
           <Route path="/products/:id" element={<ProductPage />} />
           <Route path="/cart" element={<CartPage />}>
             {/* <Route path="/cart/" element={<CartPage />} /> */}
