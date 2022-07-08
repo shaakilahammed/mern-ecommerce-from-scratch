@@ -21,6 +21,7 @@ const App = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/search/:keyword" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/profile" element={<ProfilePage />} />
