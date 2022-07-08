@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import OrderPage from './pages/OrderPage';
 import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
+import ProductEditPage from './pages/ProductEditPage';
 import ProductListPage from './pages/ProductListPage';
 import ProductPage from './pages/ProductPage';
 import ProfilePage from './pages/ProfilePage';
@@ -25,6 +26,10 @@ const App = () => {
           <Route path="/admin/user-list" element={<UserList />} />
           <Route path="/admin/user-list/:id/edit" element={<UserEditPage />} />
           <Route path="/admin/product-list" element={<ProductListPage />} />
+          <Route
+            path="/admin/product-list/:id/edit"
+            element={<ProductEditPage />}
+          />
           <Route path="/products/:id" element={<ProductPage />} />
           <Route path="/cart" element={<CartPage />}>
             {/* <Route path="/cart/" element={<CartPage />} /> */}

@@ -9,9 +9,11 @@ import {
   orderPayReducer,
 } from './reducers/orderReducers';
 import {
+  productCreateReducer,
   productDeleteReducer,
   productDetailsReducer,
   productListReducer,
+  productUpdateReducer,
 } from './reducers/productReducers';
 import {
   userDeleteReducer,
@@ -25,6 +27,8 @@ import {
 
 const reducer = combineReducers({
   productList: productListReducer,
+  productCreate: productCreateReducer,
+  productUpdate: productUpdateReducer,
   productDetails: productDetailsReducer,
   productDelete: productDeleteReducer,
   cart: cartReducers,
