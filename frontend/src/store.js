@@ -4,7 +4,9 @@ import thunk from 'redux-thunk';
 import { cartReducers } from './reducers/cartReducers';
 import {
   orderCreateReducer,
+  orderDeliveredReducer,
   orderDetailsReducer,
+  orderListReducer,
   orderMyOrdersReducer,
   orderPayReducer,
 } from './reducers/orderReducers';
@@ -42,7 +44,9 @@ const reducer = combineReducers({
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
+  orderDeliverd: orderDeliveredReducer,
   orderMyOrders: orderMyOrdersReducer,
+  orderList: orderListReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')

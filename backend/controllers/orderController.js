@@ -4,7 +4,7 @@ import Order from '../models/orderModel.js';
 // @desc    create new order
 // @route   POST /api/orders
 // @access  Private
-const addOrder = asyncHandler(async (req, res) => {
+export const addOrder = asyncHandler(async (req, res) => {
   const {
     orderItems,
     shippingAddress,
@@ -37,8 +37,22 @@ const addOrder = asyncHandler(async (req, res) => {
 // @desc    get logged in user order
 // @route   GET /api/orders/myorders
 // @access  Private
-const getMyOrders = asyncHandler(async (req, res) => {
+export const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
+
+  if (orders) {
+    res.json(orders);
+  } else {
+    res.status(404);
+    throw new Error('Orders not found');
+  }
+});
+
+// @desc    get all order
+// @route   GET /api/orders
+// @access  Private/Admin
+export const getOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({}).populate('user', '_id name');
 
   if (orders) {
     res.json(orders);
@@ -51,7 +65,7 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @desc    get order by id
 // @route   GET /api/orders/:id
 // @access  Private
-const getOrderById = asyncHandler(async (req, res) => {
+export const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id).populate(
     'user',
     'name email'
@@ -68,7 +82,7 @@ const getOrderById = asyncHandler(async (req, res) => {
 // @desc    update order to paid
 // @route   GET /api/orders/:id/pay
 // @access  Private
-const updateOrderToPaid = asyncHandler(async (req, res) => {
+export const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 
   if (order) {
@@ -88,4 +102,20 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   }
 });
 
-export { addOrder, getOrderById, updateOrderToPaid, getMyOrders };
+// @desc    update order to delivered
+// @route   GET /api/orders/:id/deliver
+// @access  Private/Admin
+export const updateOrderToDelivered = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+
+  if (order) {
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+
+    const updatedOrder = await order.save();
+    res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error('Order not found');
+  }
+});

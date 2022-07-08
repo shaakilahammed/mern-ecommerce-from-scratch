@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import CartPage from './pages/CartPage';
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
+import OrderListPage from './pages/OrderListPage';
 import OrderPage from './pages/OrderPage';
 import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
@@ -30,6 +31,7 @@ const App = () => {
             path="/admin/product-list/:id/edit"
             element={<ProductEditPage />}
           />
+          <Route path="/admin/order-list" element={<OrderListPage />} />
           <Route path="/products/:id" element={<ProductPage />} />
           <Route path="/cart" element={<CartPage />}>
             {/* <Route path="/cart/" element={<CartPage />} /> */}
