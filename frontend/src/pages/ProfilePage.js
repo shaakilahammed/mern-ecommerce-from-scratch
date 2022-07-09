@@ -7,6 +7,7 @@ import { getMyOrders } from '../actions/orderActions';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
 const ProfilePage = () => {
   const [name, setName] = useState('');
@@ -39,7 +40,8 @@ const ProfilePage = () => {
     if (!userInfo) {
       navigate('/login');
     } else {
-      if (!user.name) {
+      if (!user || !user.name || success) {
+        dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetails('profile'));
         dispatch(getMyOrders());
       } else {
@@ -47,7 +49,7 @@ const ProfilePage = () => {
         setEmail(user.email);
       }
     }
-  }, [dispatch, navigate, user, userInfo, orders]);
+  }, [dispatch, navigate, user, userInfo, orders, success]);
   const submitHandler = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {

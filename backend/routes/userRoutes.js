@@ -15,10 +15,10 @@ const router = express.Router();
 router.post('/login', authUser);
 router.post('/', registerUser);
 router.get('/profile', protect, getUserProfile);
+router.put('/profile', protect, updateUserProfile);
 router.get('/', protect, adminProtect, getUsers);
 router.get('/:id', protect, adminProtect, getUserById);
 router.put('/:id', protect, adminProtect, updateUserById);
 router.delete('/:id', protect, adminProtect, deleteUser);
-router.put('/profile', protect, updateUserProfile);
 
 export default router;
